@@ -23,8 +23,14 @@ import { Data } from "../interfaces/HostInterfaces";
 const MySwal = withReactContent(Swal);
 
 export const Hotels = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState<Data | undefined>();
   useEffect(() => {
+    
+    if (!sessionStorage.getItem("token")) {
+      navigate("/login");
+    }
+    
     const myHeaders = new Headers();
 
     myHeaders.append("Content-Type", "application/json");
@@ -36,12 +42,6 @@ export const Hotels = () => {
     })
       .then((response) => response.json())
       .then((data) => setData(data));
-  }, []);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!sessionStorage.getItem("token")) {
-      navigate("/login");
-    }
   }, []);
 
   const cerrarSesion = () =>  {
